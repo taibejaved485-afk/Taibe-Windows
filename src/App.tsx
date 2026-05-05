@@ -49,6 +49,7 @@ import {
   MessageSquare,
   MapPin,
   Linkedin,
+  Moon,
   Zap,
   Video,
   Activity
@@ -599,7 +600,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedUser, setSelectedUser] = useState("M.Taibe");
   const [password, setPassword] = useState('');
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [showAccessibilityToast, setShowAccessibilityToast] = useState(false);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -1516,17 +1517,31 @@ export default function App() {
             key="login-screen"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.8, ease: "easeInOut" } }}
-            className="relative h-screen w-screen premium-bg"
+            className={`relative h-screen w-screen overflow-hidden ${isDarkTheme ? 'premium-bg' : ''}`}
           >
+            {/* Custom Wallpaper Background */}
+            <motion.div 
+              initial={false}
+              animate={{ opacity: isDarkTheme ? 0 : 1 }}
+              transition={{ duration: 0.7 }}
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${wallpaper})` }}
+            />
+
             {/* Deep Moody Background with Bokeh Glows */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div 
+              initial={false}
+              animate={{ opacity: isDarkTheme ? 1 : 0.4 }}
+              transition={{ duration: 0.7 }}
+              className="absolute inset-0 overflow-hidden pointer-events-none"
+            >
               <div className="bokeh-light w-[800px] h-[800px] bg-[#1a1a40] -top-1/4 -left-1/4" />
               <div className="bokeh-light w-[1000px] h-[1000px] bg-[#0a0a2e] -bottom-1/3 -right-1/3" />
               <div className="bokeh-light w-[600px] h-[600px] bg-[#2d2d5f] top-1/2 left-1/4 transform -translate-y-1/2" />
-            </div>
+            </motion.div>
             
-            {/* Subtle Overlay to unify the bokeh lights */}
-            <div className="absolute inset-0 bg-black/10 backdrop-blur-[40px]" />
+            {/* Subtle Overlay to unify the background elements */}
+            <div className={`absolute inset-0 transition-all duration-700 ${isDarkTheme ? 'bg-black/30 backdrop-blur-[40px]' : 'bg-black/10 backdrop-blur-[8px]'}`} />
 
             {/* Top-Left Date & Time */}
             <motion.div 
@@ -1661,9 +1676,14 @@ export default function App() {
               <button 
                 onClick={toggleTheme}
                 disabled={isLoggingIn}
-                className="w-11 h-11 rounded-full bg-white/[0.03] backdrop-blur-[12px] flex items-center justify-center border border-white/10 hover:bg-white/[0.08] active:bg-white/[0.12] transition-all group"
+                className={`w-11 h-11 rounded-full backdrop-blur-[12px] flex items-center justify-center border transition-all group ${isDarkTheme ? 'bg-white/5 border-white/10' : 'bg-yellow-400/20 border-yellow-400/30'}`}
+                title="Toggle Login Theme"
               >
-                <Sun size={16} strokeWidth={1} className="text-white/40 group-hover:text-white transition-colors" />
+                {isDarkTheme ? (
+                  <Moon size={16} strokeWidth={1} className="text-white/40 group-hover:text-white transition-colors" />
+                ) : (
+                  <Sun size={16} strokeWidth={1} className="text-yellow-400 group-hover:text-yellow-300 transition-colors" />
+                )}
               </button>
               <button 
                 onClick={handlePower}
