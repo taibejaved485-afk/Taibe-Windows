@@ -1519,29 +1519,41 @@ export default function App() {
             exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.8, ease: "easeInOut" } }}
             className={`relative h-screen w-screen overflow-hidden ${isDarkTheme ? 'premium-bg' : ''}`}
           >
-            {/* Custom Wallpaper Background */}
+            {/* Background Layers */}
+            <motion.div 
+              initial={false}
+              animate={{ backgroundColor: isDarkTheme ? "#0a0a2e" : "#1e40af" }}
+              transition={{ duration: 1 }}
+              className="absolute inset-0"
+            />
+
+            {/* Classic Windows 7 Login Background (Light Mode) */}
             <motion.div 
               initial={false}
               animate={{ opacity: isDarkTheme ? 0 : 1 }}
-              transition={{ duration: 0.7 }}
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${wallpaper})` }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 bg-cover bg-center brightness-110"
+              style={{ backgroundImage: `url('https://images4.alphacoders.com/264/264746.jpg')` }}
             />
 
-            {/* Deep Moody Background with Bokeh Glows */}
+            {/* Dark Premium Theme (Dark Mode) */}
             <motion.div 
               initial={false}
-              animate={{ opacity: isDarkTheme ? 1 : 0.4 }}
-              transition={{ duration: 0.7 }}
-              className="absolute inset-0 overflow-hidden pointer-events-none"
+              animate={{ opacity: isDarkTheme ? 1 : 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 premium-bg"
             >
-              <div className="bokeh-light w-[800px] h-[800px] bg-[#1a1a40] -top-1/4 -left-1/4" />
-              <div className="bokeh-light w-[1000px] h-[1000px] bg-[#0a0a2e] -bottom-1/3 -right-1/3" />
-              <div className="bokeh-light w-[600px] h-[600px] bg-[#2d2d5f] top-1/2 left-1/4 transform -translate-y-1/2" />
+              {/* Deep Moody Background with Bokeh Glows */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="bokeh-light w-[800px] h-[800px] bg-[#1a1a40] -top-1/4 -left-1/4" />
+                <div className="bokeh-light w-[1000px] h-[1000px] bg-[#0a0a2e] -bottom-1/3 -right-1/3" />
+                <div className="bokeh-light w-[600px] h-[600px] bg-[#2d2d5f] top-1/2 left-1/4 transform -translate-y-1/2" />
+              </div>
             </motion.div>
             
-            {/* Subtle Overlay to unify the background elements */}
-            <div className={`absolute inset-0 transition-all duration-700 ${isDarkTheme ? 'bg-black/30 backdrop-blur-[40px]' : 'bg-black/10 backdrop-blur-[8px]'}`} />
+            {/* Unified Overlay */}
+            <div className={`absolute inset-0 transition-all duration-1000 ${isDarkTheme ? 'bg-black/30 backdrop-blur-[40px]' : 'bg-blue-600/10 backdrop-blur-[4px]'}`} />
+
 
             {/* Top-Left Date & Time */}
             <motion.div 
