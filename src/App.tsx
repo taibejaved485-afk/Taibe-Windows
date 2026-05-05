@@ -44,10 +44,14 @@ import {
   Trash,
   Sparkles,
   Globe,
+  Image,
+  Mail,
+  MessageSquare,
+  MapPin,
+  Linkedin,
   Zap,
   Video,
-  Activity,
-  Image
+  Activity
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -1802,6 +1806,7 @@ export default function App() {
                 <div className="flex-1 bg-white flex flex-col p-4 gap-4 overflow-y-auto font-sans">
                   <div className="grid grid-cols-2 gap-4">
                     {[
+                      { name: 'M.Taibe Portfolio', url: 'https://m-taibe.vercel.app/' },
                       { name: 'MG Design X', url: 'https://mgdesignx.com/' },
                       { name: 'Motral Web Studio', url: 'https://motral-web-studio.vercel.app/' },
                       { name: 'Techskoop', url: 'https://techskoop.vercel.app/' },
@@ -2219,28 +2224,86 @@ export default function App() {
                   {/* Buttons Section */}
                   <div className="grid grid-cols-4 gap-1 flex-1">
                     {/* Top Row */}
-                    <button onClick={handleCalcClear} className="col-span-2 h-9 bg-gradient-to-b from-[#f8f8f8] to-[#e1e1e1] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[12px] font-medium text-slate-700 shadow-sm transition-all active:translate-y-[1px]">C</button>
-                    <button onClick={() => handleCalcOperation('/')} className="h-9 bg-gradient-to-b from-[#f8f8f8] to-[#e1e1e1] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] text-slate-700 shadow-sm transition-all active:translate-y-[1px]">/</button>
-                    <button onClick={() => handleCalcOperation('*')} className="h-9 bg-gradient-to-b from-[#f8f8f8] to-[#e1e1e1] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] text-slate-700 shadow-sm transition-all active:translate-y-[1px]">*</button>
-
+                    <button 
+                      onClick={handleCalcClear} 
+                      className="col-span-2 h-9 bg-gradient-to-b from-[#f9f9f9] to-[#e5e5e5] border border-[#adadad] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#e5f1fb] hover:to-[#cce4f7] hover:border-[#0078d7] text-[12px] font-medium text-slate-700 active:shadow-inner active:bg-[#cce4f7] transition-all"
+                    >
+                      C
+                    </button>
+                    <button 
+                      onClick={() => handleCalcOperation('/')} 
+                      className="h-9 bg-gradient-to-b from-[#f2f7fd] to-[#d9e7f7] border border-[#8da2b9] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#ffdb99] hover:to-[#ffb347] hover:border-[#ffa500] text-[14px] text-slate-800 active:shadow-inner transition-all"
+                    >
+                      /
+                    </button>
+                    <button 
+                      onClick={() => handleCalcOperation('*')} 
+                      className="h-9 bg-gradient-to-b from-[#f2f7fd] to-[#d9e7f7] border border-[#8da2b9] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#ffdb99] hover:to-[#ffb347] hover:border-[#ffa500] text-[14px] text-slate-800 active:shadow-inner transition-all"
+                    >
+                      *
+                    </button>
+ 
                     {/* Number Rows */}
                     {[7, 8, 9].map(n => (
-                      <button key={n} onClick={() => handleCalcNumber(String(n))} className="h-9 bg-gradient-to-b from-white to-[#f0f0f0] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] font-semibold text-slate-700 shadow-sm transition-all active:translate-y-[1px]">{n}</button>
+                      <button 
+                        key={n} 
+                        onClick={() => handleCalcNumber(String(n))} 
+                        className="h-9 bg-gradient-to-b from-[#ffffff] to-[#f0f0f0] border border-[#aaaaaa] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#e5f1fb] hover:to-[#cce4f7] hover:border-[#0078d7] text-[14px] font-bold text-slate-800 active:shadow-inner transition-all"
+                      >
+                        {n}
+                      </button>
                     ))}
-                    <button onClick={() => handleCalcOperation('-')} className="h-9 bg-gradient-to-b from-[#f8f8f8] to-[#e1e1e1] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] text-slate-700 shadow-sm transition-all active:translate-y-[1px]">-</button>
-
+                    <button 
+                      onClick={() => handleCalcOperation('-')} 
+                      className="h-9 bg-gradient-to-b from-[#f2f7fd] to-[#d9e7f7] border border-[#8da2b9] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#ffdb99] hover:to-[#ffb347] hover:border-[#ffa500] text-[14px] text-slate-800 active:shadow-inner transition-all"
+                    >
+                      -
+                    </button>
+ 
                     {[4, 5, 6].map(n => (
-                      <button key={n} onClick={() => handleCalcNumber(String(n))} className="h-9 bg-gradient-to-b from-white to-[#f0f0f0] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] font-semibold text-slate-700 shadow-sm transition-all active:translate-y-[1px]">{n}</button>
+                      <button 
+                        key={n} 
+                        onClick={() => handleCalcNumber(String(n))} 
+                        className="h-9 bg-gradient-to-b from-[#ffffff] to-[#f0f0f0] border border-[#aaaaaa] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#e5f1fb] hover:to-[#cce4f7] hover:border-[#0078d7] text-[14px] font-bold text-slate-800 active:shadow-inner transition-all"
+                      >
+                        {n}
+                      </button>
                     ))}
-                    <button onClick={() => handleCalcOperation('+')} className="h-9 bg-gradient-to-b from-[#f8f8f8] to-[#e1e1e1] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] text-slate-700 shadow-sm transition-all active:translate-y-[1px]">+</button>
-
+                    <button 
+                      onClick={() => handleCalcOperation('+')} 
+                      className="h-9 bg-gradient-to-b from-[#f2f7fd] to-[#d9e7f7] border border-[#8da2b9] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#ffdb99] hover:to-[#ffb347] hover:border-[#ffa500] text-[14px] text-slate-800 active:shadow-inner transition-all"
+                    >
+                      +
+                    </button>
+ 
                     {[1, 2, 3].map(n => (
-                      <button key={n} onClick={() => handleCalcNumber(String(n))} className="h-9 bg-gradient-to-b from-white to-[#f0f0f0] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] font-semibold text-slate-700 shadow-sm transition-all active:translate-y-[1px]">{n}</button>
+                      <button 
+                        key={n} 
+                        onClick={() => handleCalcNumber(String(n))} 
+                        className="h-9 bg-gradient-to-b from-[#ffffff] to-[#f0f0f0] border border-[#aaaaaa] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#e5f1fb] hover:to-[#cce4f7] hover:border-[#0078d7] text-[14px] font-bold text-slate-800 active:shadow-inner transition-all"
+                      >
+                        {n}
+                      </button>
                     ))}
-                    <button onClick={handleCalcEquals} className="row-span-2 h-19 bg-gradient-to-b from-[#5bbaff] to-[#3a8dc2] border border-[#2a6890] rounded hover:from-[#7cc7ff] hover:to-[#4da0d6] text-[18px] font-bold text-white shadow-sm transition-all active:translate-y-[1px]">=</button>
-
-                    <button onClick={() => handleCalcNumber('0')} className="col-span-2 h-9 bg-gradient-to-b from-white to-[#f0f0f0] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] font-semibold text-slate-700 shadow-sm transition-all active:translate-y-[1px]">0</button>
-                    <button onClick={handleCalcDecimal} className="h-9 bg-gradient-to-b from-white to-[#f0f0f0] border border-[#adadad] rounded hover:bg-[#e5f1fb] hover:border-[#0078d7] text-[14px] font-semibold text-slate-700 shadow-sm transition-all active:translate-y-[1px]">.</button>
+                    <button 
+                      onClick={handleCalcEquals} 
+                      className="row-span-2 h-19 bg-gradient-to-b from-[#87c5eb] to-[#4c8ab1] border border-[#3c6a8b] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] hover:from-[#a0d4f1] hover:to-[#5ea2cb] hover:border-[#0078d7] text-[20px] font-bold text-white shadow-sm active:shadow-inner active:inner-shadow-lg transition-all"
+                    >
+                      =
+                    </button>
+ 
+                    <button 
+                      onClick={() => handleCalcNumber('0')} 
+                      className="col-span-2 h-9 bg-gradient-to-b from-[#ffffff] to-[#f0f0f0] border border-[#aaaaaa] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#e5f1fb] hover:to-[#cce4f7] hover:border-[#0078d7] text-[14px] font-bold text-slate-800 active:shadow-inner transition-all"
+                    >
+                      0
+                    </button>
+                    <button 
+                      onClick={handleCalcDecimal} 
+                      className="h-9 bg-gradient-to-b from-[#ffffff] to-[#f0f0f0] border border-[#aaaaaa] rounded shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] hover:from-[#e5f1fb] hover:to-[#cce4f7] hover:border-[#0078d7] text-[14px] font-bold text-slate-800 active:shadow-inner transition-all"
+                    >
+                      .
+                    </button>
                   </div>
                 </div>
               </OSWindow>
@@ -2339,41 +2402,85 @@ export default function App() {
                 onMaximize={() => toggleMaximize('phone')}
                 onFocus={() => focusWindow('phone')}
               >
-                <div className="flex-1 bg-white flex flex-col select-none font-sans">
-                  <div className="h-32 bg-gradient-to-br from-blue-500 to-blue-700 p-6 flex flex-col justify-end text-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
-                      <Phone size={80} />
+                <div className="flex-1 bg-[#f0f2f5] flex flex-col select-none font-sans overflow-hidden">
+                  <div className="h-44 bg-gradient-to-br from-[#1a73e8] to-[#0d47a1] p-6 flex flex-col justify-end text-white relative overflow-hidden shrink-0">
+                    <div className="absolute -top-4 -right-4 opacity-10 rotate-12 pointer-events-none">
+                      <Phone size={140} />
                     </div>
-                    <div className="relative z-10">
-                      <h2 className="text-xl font-bold">Contact M.Taibe</h2>
-                      <p className="text-sm opacity-80">Available for projects</p>
+                    <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-lg">
+                        <Win7Phone size={40} />
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-bold tracking-tight">M.Taibe</h2>
+                        <p className="text-xs font-medium bg-white/20 inline-block px-2 py-0.5 rounded-full mt-1 backdrop-blur-sm">Available for Projects</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-center gap-4 p-3 bg-slate-50 hover:bg-white rounded-lg cursor-pointer transition-all border border-slate-200 hover:shadow-md hover:border-blue-300 group">
+
+                  <div className="flex-1 p-4 space-y-3 overflow-y-auto custom-scrollbar">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 mb-2">Primary Contact</div>
+                    
+                    <a href="https://wa.me/923706487654" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-3 bg-white hover:bg-green-50 rounded-xl cursor-pointer transition-all border border-slate-200 hover:shadow-lg hover:border-green-300 group">
                       <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600 transition-colors group-hover:bg-green-600 group-hover:text-white">
-                        <Phone size={20} />
+                        <MessageSquare size={20} />
                       </div>
                       <div>
-                        <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Phone / WhatsApp</div>
-                        <div className="text-sm font-semibold text-slate-700">+92 300 0000000</div>
+                        <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">WhatsApp</div>
+                        <div className="text-sm font-semibold text-slate-700">+92 370 6487654</div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 bg-slate-50 hover:bg-white rounded-lg cursor-pointer transition-all border border-slate-200 hover:shadow-md hover:border-blue-300 group">
-                      <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-white transition-colors group-hover:bg-black">
-                        <Github size={20} />
+                      <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ChevronRight size={16} className="text-green-500" />
+                      </div>
+                    </a>
+
+                    <a href="mailto:taibejaved485@gmail.com" className="flex items-center gap-4 p-3 bg-white hover:bg-blue-50 rounded-xl cursor-pointer transition-all border border-slate-200 hover:shadow-lg hover:border-blue-300 group">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+                        <Mail size={20} />
+                      </div>
+                      <div className="overflow-hidden">
+                        <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Email</div>
+                        <div className="text-sm font-semibold text-slate-700 truncate">taibejaved485@gmail.com</div>
+                      </div>
+                      <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ChevronRight size={16} className="text-blue-500" />
+                      </div>
+                    </a>
+
+                    <div className="flex items-center gap-4 p-3 bg-white hover:bg-orange-50 rounded-xl cursor-pointer transition-all border border-slate-200 hover:shadow-lg hover:border-orange-300 group">
+                      <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600 transition-colors group-hover:bg-orange-600 group-hover:text-white">
+                        <MapPin size={20} />
                       </div>
                       <div>
-                        <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">GitHub</div>
-                        <div className="text-sm font-semibold text-slate-700">taibejaved485-afk</div>
+                        <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Origin</div>
+                        <div className="text-xs font-semibold text-slate-700">Ghokhuwal 121 jb faisalabad</div>
                       </div>
                     </div>
-                    <div className="mt-8 pt-4 border-t border-slate-100 flex justify-center gap-4">
-                       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white cursor-pointer transition-all">
-                          <Globe size={16} />
+
+                    <div className="mt-6 p-4 bg-slate-800 rounded-xl text-white shadow-xl relative overflow-hidden group">
+                       <div className="relative z-10">
+                          <h3 className="text-sm font-bold mb-1">Let's work together!</h3>
+                          <p className="text-[10px] opacity-70 mb-3 text-balance">Need a professional website or graphic design? I'm just a click away.</p>
+                          <button className="w-full py-2 bg-blue-500 hover:bg-blue-400 rounded-lg text-xs font-bold transition-colors shadow-lg shadow-blue-500/20 active:scale-95 duration-75">
+                             Send a Message
+                          </button>
                        </div>
-                       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white cursor-pointer transition-all">
-                          <Search size={16} />
+                       <Sparkles className="absolute -bottom-2 -right-2 opacity-5 scale-150 rotate-12" size={80} />
+                    </div>
+
+                    <div className="pt-4 flex justify-center gap-3">
+                       <div onClick={() => window.open('https://github.com/taibejaved485-afk', '_blank')} title="GitHub" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-slate-600 hover:bg-slate-900 hover:text-white cursor-pointer transition-all border border-slate-200 hover:border-slate-900 shadow-sm">
+                          <Github size={18} />
+                       </div>
+                       <div onClick={() => window.open('https://www.linkedin.com/in/taibe-javed-b28283396/', '_blank')} title="LinkedIn" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-[#0077b5] hover:bg-[#0077b5] hover:text-white cursor-pointer transition-all border border-slate-200 hover:border-[#0077b5] shadow-sm">
+                          <Linkedin size={18} />
+                       </div>
+                       <div onClick={() => window.open('https://www.behance.net/Taibegraphics', '_blank')} title="Behance" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-[#1769ff] hover:bg-[#1769ff] hover:text-white cursor-pointer transition-all border border-slate-200 hover:border-[#1769ff] shadow-sm">
+                          <Palette size={18} />
+                       </div>
+                       <div onClick={() => window.open('https://m-taibe.vercel.app/', '_blank')} title="Portfolio" className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-purple-600 hover:bg-purple-600 hover:text-white cursor-pointer transition-all border border-slate-200 hover:border-purple-600 shadow-sm">
+                          <Globe size={18} />
                        </div>
                     </div>
                   </div>
