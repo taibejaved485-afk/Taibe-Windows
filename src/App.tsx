@@ -425,6 +425,7 @@ interface OSWindowProps {
 }
 
 const OSWindow = ({ 
+  id,
   title, 
   icon: Icon, 
   isOpen, 
@@ -491,6 +492,7 @@ const OSWindow = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          id={id}
           onMouseDown={onFocus}
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ 
@@ -594,6 +596,19 @@ export default function App() {
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [notepadText, setNotepadText] = useState(`Hello!\n\nWelcome to M.Taibe's Windows 7 Portfolio.\nFeel free to explore the desktop icons.`);
+  const [notepadHistory, setNotepadHistory] = useState<string[]>([`Hello!\n\nWelcome to M.Taibe's Windows 7 Portfolio.\nFeel free to explore the desktop icons.`]);
+  const [notepadHistoryIndex, setNotepadHistoryIndex] = useState(0);
+
+  const pushNotepadHistory = (newText: string) => {
+    setNotepadHistory(prev => {
+      const newHistory = prev.slice(0, notepadHistoryIndex + 1);
+      if (newHistory[newHistory.length - 1] === newText) return prev;
+      newHistory.push(newText);
+      const limitedHistory = newHistory.slice(-100);
+      setNotepadHistoryIndex(limitedHistory.length - 1);
+      return limitedHistory;
+    });
+  };
   const [notepadWrap, setNotepadWrap] = useState(true);
   const [notepadFontSize, setNotepadFontSize] = useState('13px');
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -719,6 +734,39 @@ export default function App() {
         dropY <= desktopRect.bottom
       ) {
         handleRestoreFile(fileIndex);
+      }
+    }
+  };
+
+  const handleTerminalFileDragEnd = (event: any, info: any, fileName: string) => {
+    const desktopElement = desktopRef.current;
+    const terminalElement = document.getElementById('terminal');
+    
+    if (desktopElement) {
+      const desktopRect = desktopElement.getBoundingClientRect();
+      const dropX = info.point.x;
+      const dropY = info.point.y;
+
+      let droppedInTerminal = false;
+      if (terminalElement) {
+        const termRect = terminalElement.getBoundingClientRect();
+        droppedInTerminal = (
+          dropX >= termRect.left &&
+          dropX <= termRect.right &&
+          dropY >= termRect.top &&
+          dropY <= termRect.bottom
+        );
+      }
+
+      if (!droppedInTerminal &&
+          dropX >= desktopRect.left && 
+          dropX <= desktopRect.right && 
+          dropY >= desktopRect.top && 
+          dropY <= desktopRect.bottom) {
+        const fileIndex = recycleFiles.findIndex(f => f.name === fileName);
+        if (fileIndex !== -1) {
+          handleRestoreFile(fileIndex);
+        }
       }
     }
   };
@@ -991,7 +1039,7 @@ export default function App() {
      }
    });
 
-  const [terminalHistory, setTerminalHistory] = useState<string[]>([
+  const [terminalHistory, setTerminalHistory] = useState<any[]>([
     'Microsoft Windows [Version 6.1.7601]\nCopyright (c) 2009 Microsoft Corporation. All rights reserved.\n'
   ]);
   const [terminalInput, setTerminalInput] = useState('');
@@ -1066,12 +1114,19 @@ export default function App() {
         case 'dir': {
           const filesHeader = ' Volume in drive C has no label.\n Volume Serial Number is 2026-0428\n\n Directory of C:\\Users\\M.Taibe\n';
           const fileLines = recycleFiles.map(f => {
-            const size = Math.floor(Math.random() * 50000).toLocaleString();
-            return `04/28/2026  10:06 AM    ${size.padStart(10)} ${f.name}`;
-          }).join('\n');
+            const size = Math.floor(Math.random() * 50000);
+            return {
+              name: f.name,
+              size: size.toLocaleString().padStart(10),
+              date: '04/28/2026  10:06 AM'
+            };
+          });
           const totalSize = (recycleFiles.length * 14502).toLocaleString();
           const footer = `\n               ${recycleFiles.length} File(s)      ${totalSize.padStart(10)} bytes\n               2 Dir(s)  104,281,088,000 bytes free`;
-          newHistory.push(`${filesHeader}\n${fileLines}${footer}`);
+          
+          newHistory.push(filesHeader);
+          newHistory.push({ type: 'dir', files: fileLines });
+          newHistory.push(footer);
           break;
         }
         case 'cls':
@@ -1150,6 +1205,7 @@ export default function App() {
     if (selectedText.toLowerCase() === notepadSearchQuery.toLowerCase()) {
       const newText = notepadText.substring(0, start) + notepadReplaceQuery + notepadText.substring(end);
       setNotepadText(newText);
+      pushNotepadHistory(newText);
       // Wait for React to update state
       setTimeout(() => {
         textarea.focus();
@@ -1169,6 +1225,7 @@ export default function App() {
     const regex = new RegExp(escapedQuery, 'gi');
     const newText = notepadText.replace(regex, notepadReplaceQuery);
     setNotepadText(newText);
+    pushNotepadHistory(newText);
   };
 
   const handleWallpaperUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1189,6 +1246,7 @@ export default function App() {
     switch (action) {
       case 'new':
         setNotepadText('');
+        pushNotepadHistory('');
         break;
       case 'open':
         setIsErrorOpen(true); // Re-use error popup for "Coming Soon"
@@ -1207,7 +1265,18 @@ export default function App() {
         closeWindow('notepad');
         break;
       case 'undo':
-        document.execCommand('undo');
+        if (notepadHistoryIndex > 0) {
+          const newIndex = notepadHistoryIndex - 1;
+          setNotepadHistoryIndex(newIndex);
+          setNotepadText(notepadHistory[newIndex]);
+        }
+        break;
+      case 'redo':
+        if (notepadHistoryIndex < notepadHistory.length - 1) {
+          const newIndex = notepadHistoryIndex + 1;
+          setNotepadHistoryIndex(newIndex);
+          setNotepadText(notepadHistory[newIndex]);
+        }
         break;
       case 'cut':
         notepadRef.current?.select();
@@ -1219,7 +1288,9 @@ export default function App() {
         break;
       case 'paste':
         navigator.clipboard.readText().then(text => {
-          setNotepadText(prev => prev + text);
+          const newText = notepadText + text;
+          setNotepadText(newText);
+          pushNotepadHistory(newText);
         });
         break;
       case 'selectAll':
@@ -2014,6 +2085,7 @@ export default function App() {
                       ]},
                       { label: 'Edit', items: [
                         { label: 'Undo', action: 'undo' },
+                        { label: 'Redo', action: 'redo' },
                         { label: 'Separator' },
                         { label: 'Cut', action: 'cut' },
                         { label: 'Copy', action: 'copy' },
@@ -2076,7 +2148,29 @@ export default function App() {
                   <textarea 
                     ref={notepadRef}
                     value={notepadText}
-                    onChange={(e) => setNotepadText(e.target.value)}
+                    onChange={(e) => {
+                      const newText = e.target.value;
+                      setNotepadText(newText);
+                      
+                      // Push to history
+                      const newHistory = notepadHistory.slice(0, notepadHistoryIndex + 1);
+                      newHistory.push(newText);
+                      
+                      // Limit history size to 100 
+                      if (newHistory.length > 100) newHistory.shift();
+                      
+                      setNotepadHistory(newHistory);
+                      setNotepadHistoryIndex(newHistory.length - 1);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.ctrlKey && e.key.toLowerCase() === 'z') {
+                        e.preventDefault();
+                        handleNotepadAction('undo');
+                      } else if (e.ctrlKey && e.key.toLowerCase() === 'y') {
+                        e.preventDefault();
+                        handleNotepadAction('redo');
+                      }
+                    }}
                     wrap={notepadWrap ? 'soft' : 'off'}
                     className="flex-1 p-2 outline-none resize-none font-mono text-slate-800 bg-white"
                     style={{ fontSize: notepadFontSize, overflowX: notepadWrap ? 'hidden' : 'auto' }}
@@ -2211,9 +2305,30 @@ export default function App() {
                   onClick={() => document.getElementById('terminal-input')?.focus()}
                 >
                   <div className="whitespace-pre-wrap text-[#f0f0f0] leading-tight">
-                    {terminalHistory.map((line, i) => (
-                      <div key={i} className="mb-0.5">{line}</div>
-                    ))}
+                    {terminalHistory.map((item, i) => {
+                      if (typeof item === 'string') {
+                        return <div key={i} className="mb-0.5">{item}</div>;
+                      }
+                      if (item && item.type === 'dir') {
+                        return (
+                          <div key={i} className="flex flex-col my-1">
+                            {item.files.map((file: any, idx: number) => (
+                              <motion.div
+                                key={`${i}-${idx}`}
+                                drag
+                                dragSnapToOrigin
+                                onDragEnd={(e, info) => handleTerminalFileDragEnd(e, info, file.name)}
+                                whileDrag={{ scale: 1.05, opacity: 0.8, color: '#4facfe' }}
+                                className="hover:bg-white/10 cursor-grab active:cursor-grabbing px-1 -mx-1 transition-colors"
+                              >
+                                {file.date}    {file.size} {file.name}
+                              </motion.div>
+                            ))}
+                          </div>
+                        );
+                      }
+                      return null;
+                    })}
                   </div>
                   <div className="flex items-center gap-1">
                     <span className="shrink-0 uppercase text-[#00FF00] font-bold">C:\Users\M.Taibe&gt;</span>
