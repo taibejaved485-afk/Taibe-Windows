@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+  overflow: hidden;
+  user-select: none;
+  background-color: #0a0a2e;
+}
+
+.premium-bg {
+  background: radial-gradient(circle at center, #1a1a40 0%, #0a0a2e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bokeh-light {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
