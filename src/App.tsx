@@ -615,7 +615,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedUser, setSelectedUser] = useState("M.Taibe");
   const [password, setPassword] = useState('');
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [showAccessibilityToast, setShowAccessibilityToast] = useState(false);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
