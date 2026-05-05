@@ -2331,33 +2331,35 @@ export default function App() {
 
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { name: 'Wordpress Development', desc: 'Custom themes & complex plugins', icon: Globe, color: 'bg-blue-500', level: '95%' },
-                      { name: 'Vibe Coding', desc: 'AI-assisted rapid development', icon: Zap, color: 'bg-yellow-500', level: '90%' },
-                      { name: 'Graphic Designing', desc: 'Modern UI/UX & Brand Identity', icon: Image, color: 'bg-purple-500', level: '85%' },
-                      { name: 'Video Editing', desc: 'Capcut & Motion Graphics', icon: Video, color: 'bg-red-500', level: '80%' },
-                      { name: 'SEO Optimization', desc: 'Technical & On-page search', icon: Search, color: 'bg-green-500', level: '85%' },
-                      { name: 'Speed Optimization', desc: 'Core Web Vitals & Performance', icon: Activity, color: 'bg-cyan-500', level: '90%' },
+                      { name: 'Wordpress web development', desc: 'Custom themes & Complex plugins', icon: Globe, color: 'bg-[#21759b]', level: '95%' },
+                      { name: 'Vibe coding', desc: 'AI-Assisted rapid development', icon: Zap, color: 'bg-[#f1c40f]', level: '92%' },
+                      { name: 'Graphic designing', desc: 'UI/UX & Modern architecture', icon: Palette, color: 'bg-[#e67e22]', level: '88%' },
+                      { name: 'Capcut video editing', desc: 'Dynamic visuals & Motion', icon: Video, color: 'bg-[#ff0000]', level: '85%' },
+                      { name: 'SEO Speed optimization', desc: 'Performance & Ranking', icon: Activity, color: 'bg-[#27ae60]', level: '94%' },
                     ].map((skill, index) => (
-                      <div key={index} className="bg-white border border-gray-200 rounded-lg p-3 hover:shadow-md transition-all group hover:border-blue-400">
+                      <div key={index} className="bg-white border border-[#c9d9e5] rounded shadow-[0_1px_3px_rgba(0,0,0,0.1)] p-3 hover:bg-[#eaf1f7] transition-all group hover:border-[#a0c5e8] cursor-default">
                         <div className="flex items-center gap-3 mb-2">
-                          <div className={`p-2 rounded-md ${skill.color} text-white shadow-sm`}>
+                          <div className={`p-2 rounded-md ${skill.color} text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)]`}>
                             <skill.icon size={18} />
                           </div>
                           <div className="flex-1">
-                            <div className="text-[13px] font-bold text-slate-700 tracking-tight">{skill.name}</div>
+                            <div className="text-[12px] font-bold text-slate-800 tracking-tight">{skill.name}</div>
                             <div className="text-[10px] text-slate-500 leading-tight">{skill.desc}</div>
                           </div>
                         </div>
                         <div className="space-y-1">
-                          <div className="flex justify-between text-[9px] font-medium text-slate-400">
+                          <div className="flex justify-between text-[9px] font-bold text-slate-500">
                             <span>Proficiency</span>
                             <span>{skill.level}</span>
                           </div>
-                          <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden border border-gray-200/50">
+                          <div className="h-4 w-full bg-[#e8e8e8] border border-[#bbbbbb] rounded shadow-inner overflow-hidden relative">
                             <div 
-                              className={`h-full ${skill.color} rounded-full transition-all duration-1000 ease-out`} 
+                              className={`h-full bg-gradient-to-b from-[#7dbedb] via-[#4d9fbf] to-[#7dbedb] transition-all duration-1000 ease-out relative overflow-hidden`} 
                               style={{ width: skill.level }}
-                            />
+                            >
+                               <div className="absolute top-0 left-0 w-full h-1/2 bg-white/30 backdrop-blur-[1px]"></div>
+                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                            </div>
                           </div>
                         </div>
                       </div>
