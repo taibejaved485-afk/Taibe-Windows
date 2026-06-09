@@ -5112,30 +5112,35 @@ export default function App() {
 
                 {/* Taskbar Icons */}
                 <div className="flex items-center h-full gap-1 ml-1">
-                  {(Object.values(windows) as any[]).map((win) => (
-                    <div
-                      key={win.id}
-                      onClick={() => handleTaskbarClick(win.id)}
-                      className={`taskbar-button group relative w-12 h-full flex items-center justify-center cursor-pointer transition-all duration-300
+                  {(Object.values(windows) as any[])
+                    .filter(
+                      (win) =>
+                        win.isOpen || ["myComputer", "notepad", "recycleBin"].includes(win.id),
+                    )
+                    .map((win) => (
+                      <div
+                        key={win.id}
+                        onClick={() => handleTaskbarClick(win.id)}
+                        className={`taskbar-button group relative w-12 h-full flex items-center justify-center cursor-pointer transition-all duration-300
                           ${win.isOpen ? "bg-white/10 shadow-[inset_0_0_1px_rgba(255,255,255,0.4)]" : "hover:bg-white/10"}
                           ${win.zIndex === topZIndex && win.isOpen && !win.isMinimized ? "bg-white/20 shadow-[inset_0_0_1px_rgba(255,255,255,0.6)]" : ""}
                         `}
-                    >
-                      {win.id === "recycleBin" ? (
-                        <Win7RecycleBin
-                          size={24}
-                          isEmpty={recycleFiles.length === 0}
-                        />
-                      ) : (
-                        <win.icon size={24} />
-                      )}
-                      {win.isOpen && (
-                        <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-blue-300 shadow-[0_0_5px_#93c5fd]" />
-                      )}
-                      {/* Glass Shine Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none" />
-                    </div>
-                  ))}
+                      >
+                        {win.id === "recycleBin" ? (
+                          <Win7RecycleBin
+                            size={24}
+                            isEmpty={recycleFiles.length === 0}
+                          />
+                        ) : (
+                          <win.icon size={24} />
+                        )}
+                        {win.isOpen && (
+                          <div className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-blue-300 shadow-[0_0_5px_#93c5fd]" />
+                        )}
+                        {/* Glass Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none" />
+                      </div>
+                    ))}
                   <div className="w-[1px] h-6 bg-white/10 mx-1" />
                   <div
                     onClick={() =>
