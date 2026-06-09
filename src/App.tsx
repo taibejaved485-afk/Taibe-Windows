@@ -945,11 +945,17 @@ const OSWindow = ({
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
+  const posRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    posRef.current = pos;
+  }, [pos]);
 
   useEffect(() => {
     if (!isOpen) {
       // Reset position when window opens
-      setPos({ x: window.innerWidth * 0.2, y: window.innerHeight * 0.15 });
+      const initialPos = { x: window.innerWidth * 0.2, y: window.innerHeight * 0.15 };
+      setPos(initialPos);
     }
   }, [isOpen]);
 
@@ -970,7 +976,27 @@ const OSWindow = ({
         setPos({ x: clampedX, y: clampedY });
       }
     };
-    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      // Basic Snapping Logic
+      const { x, y } = posRef.current;
+      const threshold = 30;
+
+      // Snap to Top -> Maximize
+      if (y < threshold) {
+        if (!isMaximized) onMaximize();
+        return;
+      }
+
+      // Snap to Left
+      if (x < threshold) {
+        setPos({ x: 0, y: 0 });
+      }
+      // Snap to Right
+      else if (x + 200 > window.innerWidth - threshold) {
+        setPos({ x: window.innerWidth / 2, y: 0 });
+      }
+    };
 
     if (isDragging) {
       window.addEventListener("mousemove", handleMouseMove);
